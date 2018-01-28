@@ -52,7 +52,10 @@ func TestEditDistanceCalculator_GetShortestequenceOfOperations(t *testing.T) {
 		So(calculator.GetShortestSequenceOfOperations(makeRuneArrays("", "a")), ShouldHaveLength, 1)
 		So(calculator.GetShortestSequenceOfOperations(makeRuneArrays("a", "b")), ShouldHaveLength, 1)
 		So(calculator.GetShortestSequenceOfOperations(makeRuneArrays("aa", "abc")), ShouldHaveLength, 2)
-		So(calculator.GetShortestSequenceOfOperations(makeRuneArrays("abc", "aa")), ShouldHaveLength, 2)
+
+		operations := calculator.GetShortestSequenceOfOperations(makeRuneArrays("abc", "aa"))
+		So(operations, ShouldHaveLength, 2)
+		So(operations, ShouldResemble, []string{"mutate", "delete"})
 	})
 }
 

@@ -16,13 +16,17 @@ func (this editDistanceCalculator) Calculate(a, b []rune) int {
 	M := len(a) + 1
 	N := len(b) + 1
 
-	distance := this.initializeDistanceMatrix(M, N)
+	previousDistance := this.initializeDistanceSlice(N)
+	distance := this.initializeDistanceSlice(N)
+
 	for i := 0; i < M-1; i++ {
+		distance[0] = i + 1
 		for j := 0; j < N-1; j++ {
-			distance[i+1][j+1] = this.Min3(distance[i][j+1]+1, distance[i+1][j]+1, distance[i][j]+this.getPenalty(a[i], b[j]))
+			distance[j+1] = this.Min3(previousDistance[j+1]+1, distance[j]+1, previousDistance[j]+this.getPenalty(a[i], b[j]))
 		}
+		copy(previousDistance, distance)
 	}
-	return distance[M-1][N-1]
+	return distance[N-1]
 }
 
 func (this editDistanceCalculator) GetShortestSequenceOfOperations(a, b []rune) []string {
@@ -81,8 +85,8 @@ func (this editDistanceCalculator) initializeDistanceMatrix(M int, N int) [][]in
 	for i := 0; i < M; i++ {
 		distance[i][0] = i
 	}
-	for i := 0; i < N; i++ {
-		distance[0][i] = i
+	for j := 0; j < N; j++ {
+		distance[0][j] = j
 	}
 	return distance
 }
@@ -145,4 +149,11 @@ func (this editDistanceCalculator) initializeDirection(M, N int) [][]int {
 		direction[0][i] = 1
 	}
 	return direction
+}
+func (editDistanceCalculator) initializeDistanceSlice(N int) []int {
+	slice := make([]int, N)
+	for j := 0; j < N; j++ {
+		slice[j] = j
+	}
+	return slice
 }
