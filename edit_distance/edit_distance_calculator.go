@@ -38,7 +38,7 @@ func (this editDistanceCalculator) GetOperations(a, b []rune) (string, string) {
 
 	for i := 1; i < M; i++ {
 		for j := 1; j < N; j++ {
-			distance[i][j], direction[i][j] = this.getOptimalStep(a, b, i, j, distance)
+			distance[i][j], direction[i][j] = this.Min3WithPosition(distance[i][j-1]+1, distance[i-1][j]+1, distance[i-1][j-1]+this.getPenalty(a[i-1], b[j-1]))
 		}
 	}
 	return this.getSequence(direction, M, N, a, b)
@@ -58,19 +58,6 @@ func (this editDistanceCalculator) Min3WithPosition(x, y, z int) (int, int) {
 		return y, 2
 	}
 	return z, 3
-}
-
-func (this editDistanceCalculator) getOptimalStep(a, b []rune, i, j int, distance [][]int) (int, int) {
-	penalty := this.getPenalty(a[i-1], b[j-1])
-	minimumSteps, previousStep := this.Min3WithPosition(distance[i][j-1]+1, distance[i-1][j]+1, distance[i-1][j-1]+penalty)
-	if this.charactersAreIdentical(previousStep, penalty) {
-		previousStep = 4
-	}
-	return minimumSteps, previousStep
-}
-
-func (this editDistanceCalculator) charactersAreIdentical(position int, penalty int) bool {
-	return position == 3 && penalty == 0
 }
 
 func (editDistanceCalculator) min(x, y int) int {
@@ -109,14 +96,14 @@ func (editDistanceCalculator) getPenalty(a, b rune) int {
 func (this editDistanceCalculator) getSequence(direction [][]int, M, N int, a, b []rune) (string, string) {
 	i := M - 1
 	j := N - 1
+	var letterOfFirstWord, letterOfSecondWord rune
 	var firstWord, secondWord string
+
 	for direction[i][j] != 0 && i+j != 0 {
 		currentDirection := direction[i][j]
-		new_i, new_j, letterOfFirstWord, letterOfSecondWord := this.performStepBack(currentDirection, i, j, a, b)
+		i, j, letterOfFirstWord, letterOfSecondWord = this.performStepBack(currentDirection, i, j, a, b)
 		firstWord = string(letterOfFirstWord) + firstWord
 		secondWord = string(letterOfSecondWord) + secondWord
-		i = new_i
-		j = new_j
 	}
 	return firstWord, secondWord
 }
@@ -127,14 +114,11 @@ func (editDistanceCalculator) performStepBack(currentDirection, i, j int, a, b [
 		return i, j - 1, '-', b[j-1]
 	case 2:
 		return i - 1, j, a[i-1], '-'
-	case 3:
-		return i - 1, j - 1, a[i-1], b[i-1]
-	case 4:
-		return i - 1, j - 1, a[i-1], b[j-1]
 	default:
-		return 0, 0, 'E', 'E'
+		return i - 1, j - 1, a[i-1], b[i-1]
 	}
 }
+
 func (this editDistanceCalculator) initializeDirectionMatrix(M, N int) [][]int {
 	direction := this.declare2DSlice(M, N)
 	direction[0][0] = 0
