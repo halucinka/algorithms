@@ -10,10 +10,20 @@ func makeRuneArrays(a, b string) ([]rune, []rune) {
 	return []rune(a), []rune(b)
 }
 
+func makeRuneArray(a string) []rune {
+	return []rune(a)
+}
+
 func testMinAndPosition(calculator editDistanceCalculator, firstParameter, secondParameter, thirdParameter, expectedMinimum, expectedPosition int) {
 	minimum, position := calculator.Min3WithPosition(firstParameter, secondParameter, thirdParameter)
 	So(minimum, ShouldEqual, expectedMinimum)
 	So(position, ShouldEqual, expectedPosition)
+}
+
+func testSequenceOfOperations(calculator EditDistanceCalculator, a, b []rune, expectedFirstWord, expectedSecondWord string) {
+	firstWord, secondWord := calculator.GetOperations(a, b)
+	So(firstWord, ShouldEqual, expectedFirstWord)
+	So(secondWord, ShouldEqual, expectedSecondWord)
 }
 
 func TestEditDistanceCalculator_Calculate(t *testing.T) {
@@ -43,19 +53,16 @@ func TestEditDistanceCalculator_Max3(t *testing.T) {
 	})
 }
 
-func TestEditDistanceCalculator_GetShortestequenceOfOperations(t *testing.T) {
-	Convey("Test GetShortestequenceOfOperations", t, func() {
+func TestEditDistanceCalculator_GetOperations(t *testing.T) {
+	Convey("Test GetOperations", t, func() {
 		calculator := NewEditDistanceCalculator()
 
-		So(calculator.GetShortestSequenceOfOperations(makeRuneArrays("", "")), ShouldBeEmpty)
-		So(calculator.GetShortestSequenceOfOperations(makeRuneArrays("a", "")), ShouldHaveLength, 1)
-		So(calculator.GetShortestSequenceOfOperations(makeRuneArrays("", "a")), ShouldHaveLength, 1)
-		So(calculator.GetShortestSequenceOfOperations(makeRuneArrays("a", "b")), ShouldHaveLength, 1)
-		So(calculator.GetShortestSequenceOfOperations(makeRuneArrays("aa", "abc")), ShouldHaveLength, 2)
-
-		operations := calculator.GetShortestSequenceOfOperations(makeRuneArrays("abc", "aa"))
-		So(operations, ShouldHaveLength, 2)
-		So(operations, ShouldResemble, []string{"mutate", "delete"})
+		testSequenceOfOperations(calculator, makeRuneArray(""), makeRuneArray(""), "", "")
+		testSequenceOfOperations(calculator, makeRuneArray("a"), makeRuneArray(""), "a", "-")
+		testSequenceOfOperations(calculator, makeRuneArray(""), makeRuneArray("a"), "-", "a")
+		testSequenceOfOperations(calculator, makeRuneArray("a"), makeRuneArray("b"), "a", "b")
+		testSequenceOfOperations(calculator, makeRuneArray("aa"), makeRuneArray("abc"), "aa-", "abc")
+		testSequenceOfOperations(calculator, makeRuneArray("abc"), makeRuneArray("aa"), "abc", "aa-")
 	})
 }
 
