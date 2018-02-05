@@ -1,4 +1,4 @@
-package naive
+package rabin_karp
 
 import (
 	"testing"
@@ -12,11 +12,12 @@ func testMatching(text, pattern string, expectedMatchingResponse bool, expectedP
 	So(position, ShouldEqual, expectedPosition)
 }
 
-func Test_StringMatching_NaiveImplementation(t *testing.T) {
-	Convey("Test StringMatching_NaiveImplementation", t, func() {
+func Test_StringMatching_RabinKarp(t *testing.T) {
+	Convey("Test RabinKarp", t, func() {
 		testMatching("textsomething", "text", true, 0)
 		testMatching("", "text", false, -1)
-		testMatching("somethingtexttext", "text", true, 9)
 		testMatching("textsomething", "", true, 0)
+		testMatching("somethingtext", "text", true, 9)
+		testMatching("somethingtexttext", "text", true, 9)
 	})
 }
