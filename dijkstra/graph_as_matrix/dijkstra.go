@@ -20,7 +20,7 @@ func (h Heap) Less(i, j int) bool {
 	return h[i].Distance < h[j].Distance
 }
 func (h Heap) Swap(i, j int) {
-	h[i].Distance, h[j].Distance = h[j].Distance, h[i].Distance
+	h[i], h[j] = h[j], h[i]
 	Pointers[h[i].Id], Pointers[h[j].Id] = Pointers[h[j].Id], Pointers[h[i].Id]
 }
 
@@ -67,14 +67,13 @@ func GetDistancesFromStart(graph [][]int, start int) []int {
 		// for all neighbours
 		for neighbour, value := range graph[u.Id] {
 			if value != 0 {
-				if distances[neighbour] > distances[u.Id]+graph[neighbour][u.Id] {
-					distances[neighbour] = distances[u.Id] + graph[neighbour][u.Id]
-					h[Pointers[neighbour]] = &Vertex{neighbour, distances[u.Id] + graph[neighbour][u.Id]}
+				if distances[neighbour] > distances[u.Id]+value {
+					distances[neighbour] = distances[u.Id] + value
+					h[Pointers[neighbour]] = &Vertex{neighbour, distances[u.Id] + value}
 					heap.Fix(&h, Pointers[neighbour])
 				}
 			}
 		}
 	}
-
 	return distances
 }
