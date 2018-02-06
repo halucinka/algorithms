@@ -1,7 +1,6 @@
 package kruskal
 
 import (
-	"fmt"
 	"sort"
 )
 
@@ -47,7 +46,6 @@ func Kruskal(graph [][]int) []*Edge {
 	sort.Sort(edges)
 
 	for _, edge := range edges.edges {
-		fmt.Println(find(edge.vertex1), find(edge.vertex2))
 		if find(edge.vertex1) != find(edge.vertex2) {
 			mst = append(mst, edge)
 			union(edge.vertex1, edge.vertex2)
@@ -75,8 +73,16 @@ func union(u, v int) {
 }
 
 func find(v int) int {
-	for parents[v] != v {
-		v = parents[v]
+	u := v
+	for parents[u] != u {
+		u = parents[u]
 	}
-	return parents[v]
+	rootV := u
+	u = v
+	for parents[u] != u {
+		parent := parents[u]
+		parents[u] = rootV
+		u = parent
+	}
+	return rootV
 }
