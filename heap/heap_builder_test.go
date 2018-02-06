@@ -51,11 +51,11 @@ func TestHeapBuilder_BuildHeap(t *testing.T) {
 }
 
 func TestHeapBuilder_Heapify(t *testing.T) {
-	Convey("Test Heapify", t, func() {
+	Convey("Test BubbleDown", t, func() {
 		heapBuilder := heapBuilder{}
-		So(heapBuilder.Heapify(0, []int{1, 2, 3}, 3), ShouldResemble, []int{3, 2, 1})
-		So(heapBuilder.Heapify(0, []int{1, 2}, 2), ShouldResemble, []int{2, 1})
-		So(heapBuilder.Heapify(0, []int{2, 1}, 2), ShouldResemble, []int{2, 1})
+		So(heapBuilder.BubbleDown(0, []int{1, 2, 3}, 3), ShouldResemble, []int{3, 2, 1})
+		So(heapBuilder.BubbleDown(0, []int{1, 2}, 2), ShouldResemble, []int{2, 1})
+		So(heapBuilder.BubbleDown(0, []int{2, 1}, 2), ShouldResemble, []int{2, 1})
 	})
 }
 

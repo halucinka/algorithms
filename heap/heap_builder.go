@@ -20,7 +20,7 @@ func (this heapBuilder) HeapSort(array []int) []int {
 	array = this.BuildHeap(array)
 	for heapSize := len(array) - 1; heapSize > 0; heapSize-- {
 		array = this.Swap(0, heapSize, array)
-		array = this.Heapify(0, array, heapSize)
+		array = this.BubbleDown(0, array, heapSize)
 	}
 	return array
 }
@@ -37,7 +37,7 @@ func (this heapBuilder) Insert(element int, array []int) []int {
 
 func (this heapBuilder) BuildHeap(array []int) []int {
 	for i := len(array) / 2; i >= 0; i-- {
-		array = this.Heapify(i, array, len(array))
+		array = this.BubbleDown(i, array, len(array))
 	}
 	return array
 }
@@ -49,7 +49,7 @@ func (this heapBuilder) ExtractMaximum(array []int) (int, []int) {
 	}
 	maximum := array[0]
 	array = this.Swap(0, heapSize-1, array)
-	array = this.Heapify(0, array, heapSize-1)
+	array = this.BubbleDown(0, array, heapSize-1)
 	return maximum, array
 }
 
@@ -60,19 +60,14 @@ func (this heapBuilder) Swap(a, b int, array []int) []int {
 	return array
 }
 
-func (this heapBuilder) Heapify(i int, array []int, heapSize int) []int {
-	if heapSize < 2*(i+1)-1 {
-		return array
+func (this heapBuilder) BubbleDown(index int, array []int, heapSize int) []int {
+	childForSwap := this.getChildForSwap(array, index, heapSize)
+	for childForSwap != -1 {
+		array = this.Swap(childForSwap, index, array)
+		index = childForSwap
+		childForSwap = this.getChildForSwap(array, index, heapSize)
 	}
-
-	childForSwap := this.getChildForSwap(array, i, heapSize)
-
-	if childForSwap == -1 {
-		return array
-	}
-
-	array = this.Swap(childForSwap, i, array)
-	return this.Heapify(childForSwap, array, heapSize)
+	return array
 }
 
 func (heapBuilder) getChildForSwap(array []int, i, heapSize int) int {
