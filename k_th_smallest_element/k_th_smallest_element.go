@@ -14,11 +14,10 @@ func getKthSmallestElement(array []int, k, left, right int) int {
 		return array[left]
 	}
 	array, middle := randomizedPartitioningOfSubarray(array, left, right)
-	lengthOfLeftSubArray := middle - left + 1
-	if lengthOfLeftSubArray > k {
-		getKthSmallestElement(array, left, middle-1, k)
-	} else if lengthOfLeftSubArray < k {
-		getKthSmallestElement(array, middle+1, right, k-lengthOfLeftSubArray)
+	if middle > k {
+		return getKthSmallestElement(array, k, left, middle-1)
+	} else if middle < k {
+		return getKthSmallestElement(array, k, middle+1, right)
 	} else {
 		return array[middle]
 	}
@@ -26,10 +25,9 @@ func getKthSmallestElement(array []int, k, left, right int) int {
 }
 
 func randomizedPartitioningOfSubarray(array []int, left, right int) ([]int, int) {
-	pivot := left + rand.Intn(right-left) - 1
+	pivot := left + rand.Intn(right-left)
 	array = swap(array, right, pivot)
 	return paritioningOfSubarray(array, right, left)
-
 }
 
 func paritioningOfSubarray(array []int, right int, left int) ([]int, int) {
