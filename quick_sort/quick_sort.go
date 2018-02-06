@@ -12,30 +12,33 @@ func quickSort(array []int, left, right int) []int {
 		return array
 	}
 
-	array, middle := randomizedPartitioningOfSubarray(array, left, right)
-	array = quickSort(array, left, middle-1)
+	array, middle := paritioningOfSubarray(array, left, right)
+	array = quickSort(array, left, middle)
 	array = quickSort(array, middle+1, right)
 
 	return array
 }
 
-func randomizedPartitioningOfSubarray(array []int, left, right int) ([]int, int) {
+func paritioningOfSubarray(array []int, left, right int) ([]int, int) {
 	pivot := left + rand.Intn(right-left)
-	array = swap(array, right, pivot)
-	return paritioningOfSubarray(array, right, left)
-}
-
-func paritioningOfSubarray(array []int, right int, left int) ([]int, int) {
-	pivotValue := array[right]
-	i := left - 1
-	for j := left; j < right; j++ {
-		if array[j] <= pivotValue {
-			i++
-			array = swap(array, i, j)
+	pivotValue := array[pivot]
+	l := left
+	r := right
+	for l < r {
+		for l <= right && array[l] < pivotValue {
+			l++
+		}
+		for r >= left && array[r] > pivotValue {
+			r--
+		}
+		if l < r {
+			array = swap(array, l, r)
+			l++
+			r--
 		}
 	}
-	array = swap(array, i+1, right)
-	return array, i + 1
+
+	return array, r
 }
 
 func swap(array []int, a, b int) []int {
