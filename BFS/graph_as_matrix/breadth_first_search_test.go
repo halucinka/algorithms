@@ -42,6 +42,14 @@ func Test_GetDistancesFromStart(t *testing.T) {
 		}
 		So(GetDistancesFromStart(graph, 0), ShouldResemble, []int{0, -1, -1, -1})
 	})
+	Convey("Test GetDistancesFromStart - 2 components", t, func() {
+		graph := [][]int{
+			{0, 1},
+			{0, 0},
+		}
+		So(GetDistancesFromStart(graph, 0), ShouldResemble, []int{0, 1})
+		So(GetDistancesFromStart(graph, 1), ShouldResemble, []int{-1, 0})
+	})
 }
 
 func Test_GetNumberOfComponents(t *testing.T) {
