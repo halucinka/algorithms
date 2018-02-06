@@ -17,6 +17,7 @@ func Test_StringMatching_RabinKarp(t *testing.T) {
 		testMatching("textsomething", "text", true, 0)
 		testMatching("", "text", false, -1)
 		testMatching("textsomething", "", true, 0)
+		testMatching("text", "text", true, 0)
 		testMatching("somethingtext", "text", true, 9)
 		testMatching("somethingtexttext", "text", true, 9)
 	})
