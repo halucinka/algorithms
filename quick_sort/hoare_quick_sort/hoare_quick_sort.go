@@ -1,8 +1,8 @@
-package quick_sort
+package hoare_quick_sort
 
 import "math/rand"
 
-func QuickSort(array []int) []int {
+func HoareQuickSort(array []int) []int {
 	return quickSort(array, 0, len(array)-1)
 }
 
