@@ -9,12 +9,11 @@ import (
 func Test_GetDistancesFromStart(t *testing.T) {
 	Convey("Test GetDistancesFromStart", t, func() {
 		graph := [][]int{
-			{-1, 1, 2},
-			{0, -1, -1},
-			{0, -1, -1},
+			{0, 1, 1},
+			{1, 0, 0},
+			{1, 0, 0},
 		}
-		start := 0
-		So(GetDistancesFromStart(graph, start), ShouldResemble, []int{0, 1, 1})
+		So(GetDistancesFromStart(graph, 0), ShouldResemble, []int{0, 1, 1})
 	})
 	Convey("Test GetDistancesFromStart", t, func() {
 		graph := [][]int{
@@ -23,30 +22,7 @@ func Test_GetDistancesFromStart(t *testing.T) {
 			{1, 0, 0, 1},
 			{0, 0, 1, 0},
 		}
-		start := 0
-		So(GetDistancesFromStart(graph, start), ShouldResemble, []int{0, 1, 1, 2})
-	})
-}
-
-func Test_GetNumberOfComponents(t *testing.T) {
-
-	Convey("Test GetDistancesFromStart - one component", t, func() {
-		graph := [][]int{
-			{0, 1, 1, 0},
-			{1, 0, 1, 0},
-			{1, 0, 0, 1},
-			{0, 0, 1, 0},
-		}
-		So(GetNumberOfComponents(graph), ShouldEqual, 1)
-	})
-	Convey("Test GetDistancesFromStart - 2 components, isolated vertex", t, func() {
-		graph := [][]int{
-			{0, 1, 1, 0},
-			{1, 0, 1, 0},
-			{1, 0, 0, 0},
-			{0, 0, 0, 0},
-		}
-		So(GetNumberOfComponents(graph), ShouldEqual, 2)
+		So(GetDistancesFromStart(graph, 0), ShouldResemble, []int{0, 1, 1, 2})
 	})
 	Convey("Test GetDistancesFromStart - 2 components", t, func() {
 		graph := [][]int{
@@ -55,9 +31,49 @@ func Test_GetNumberOfComponents(t *testing.T) {
 			{0, 0, 0, 1},
 			{0, 0, 1, 0},
 		}
-		So(GetNumberOfComponents(graph), ShouldEqual, 2)
+		So(GetDistancesFromStart(graph, 0), ShouldResemble, []int{0, 1, -1, -1})
 	})
 	Convey("Test GetDistancesFromStart - 4 components, no edges", t, func() {
+		graph := [][]int{
+			{0, 0, 0, 0},
+			{0, 0, 0, 0},
+			{0, 0, 0, 0},
+			{0, 0, 0, 0},
+		}
+		So(GetDistancesFromStart(graph, 0), ShouldResemble, []int{0, -1, -1, -1})
+	})
+}
+
+func Test_GetNumberOfComponents(t *testing.T) {
+
+	Convey("Test GetNumberOfComponents - one component", t, func() {
+		graph := [][]int{
+			{0, 1, 1, 0},
+			{1, 0, 1, 0},
+			{1, 0, 0, 1},
+			{0, 0, 1, 0},
+		}
+		So(GetNumberOfComponents(graph), ShouldEqual, 1)
+	})
+	Convey("Test GetNumberOfComponents - 2 components, isolated vertex", t, func() {
+		graph := [][]int{
+			{0, 1, 1, 0},
+			{1, 0, 1, 0},
+			{1, 0, 0, 0},
+			{0, 0, 0, 0},
+		}
+		So(GetNumberOfComponents(graph), ShouldEqual, 2)
+	})
+	Convey("Test GetNumberOfComponents - 2 components", t, func() {
+		graph := [][]int{
+			{0, 1, 0, 0},
+			{1, 0, 0, 0},
+			{0, 0, 0, 1},
+			{0, 0, 1, 0},
+		}
+		So(GetNumberOfComponents(graph), ShouldEqual, 2)
+	})
+	Convey("Test GetNumberOfComponents - 4 components, no edges", t, func() {
 		graph := [][]int{
 			{0, 0, 0, 0},
 			{0, 0, 0, 0},

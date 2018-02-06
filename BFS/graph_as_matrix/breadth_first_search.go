@@ -5,7 +5,10 @@ func GetDistancesFromStart(graph [][]int, start int) []int {
 	usedVertices := map[int]bool{start: true}
 	N := len(graph)
 	distances := make([]int, N)
-
+	for index := range distances {
+		distances[index] = -1
+	}
+	distances[start] = 0
 	for len(queue) > 0 {
 		//pop
 		u := queue[0]
