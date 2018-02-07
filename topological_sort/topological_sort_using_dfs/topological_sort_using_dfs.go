@@ -40,21 +40,30 @@ func DFS_recursive(graph [][]int) []int {
 
 		}
 	}
-	return topologicalOrdering
+	return reverseSlice(topologicalOrdering)
 
 }
+func reverseSlice(slice []int) []int {
+	N := len(slice)
+	for i := 0; i < N/2; i++ {
+		slice[i], slice[N-i-1] = slice[N-i-1], slice[i]
+	}
+	return slice
+}
+
 func DfsVisit(i int, graph [][]int) bool {
-	loopFound := false
 	colors[i] = 1 // grey
 	for _, neighbour := range graph[i] {
 		if colors[neighbour] == 1 {
 			// loop found, exit
 			return true
 		} else if colors[neighbour] == 0 {
-			loopFound = DfsVisit(neighbour, graph)
+			if DfsVisit(neighbour, graph) {
+				return true
+			}
 		}
 	}
 	colors[i] = 2 //black
-	topologicalOrdering = append([]int{i}, topologicalOrdering...)
-	return loopFound
+	topologicalOrdering = append(topologicalOrdering, i)
+	return false
 }
