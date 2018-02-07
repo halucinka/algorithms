@@ -1,4 +1,4 @@
-package graph_as_matrix
+package graph_as_lists
 
 import (
 	"container/heap"
