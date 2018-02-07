@@ -21,19 +21,23 @@ func DFS(graph [][]int) int {
 			visited[i] = true
 
 			for len(stack) > 0 {
-				//pop
+				//loop up
 				u := stack[len(stack)-1]
-				stack = stack[0 : len(stack)-1]
 
 				stepNumber++
+				someNeighbourIsNotVisited := false
 				for _, neighbour := range graph[u] {
 					if !visited[neighbour] {
 						// we pick one neighbour at a time, so every node will be in stack at most once
-						stack = append(stack, i)
 						visited[neighbour] = true
 						stack = append(stack, neighbour)
+						someNeighbourIsNotVisited = true
 						break
 					}
+				}
+				if !someNeighbourIsNotVisited {
+					// leaving node = node becomes black
+					stack = stack[0 : len(stack)-1]
 				}
 			}
 		}
