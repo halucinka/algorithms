@@ -12,7 +12,7 @@ func Test_GetNumberOfComponents(t *testing.T) {
 		graph := [][]int{
 			{1, 2},
 			{0, 2},
-			{0, 3},
+			{0, 1, 3},
 			{2},
 		}
 		So(GetNumberOfComponents(graph), ShouldEqual, 1)
@@ -21,7 +21,7 @@ func Test_GetNumberOfComponents(t *testing.T) {
 		graph := [][]int{
 			{1, 2},
 			{0, 2},
-			{0},
+			{0, 1},
 			{},
 		}
 		So(GetNumberOfComponents(graph), ShouldEqual, 2)

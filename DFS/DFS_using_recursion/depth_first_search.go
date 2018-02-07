@@ -30,7 +30,6 @@ func DFS_recursive(graph [][]int) (int, []int, []int, []int) {
 		if colors[i] == 0 {
 			componentsCount++
 			DfsVisit(i, graph)
-
 		}
 	}
 	return componentsCount, discoveryOrderingIn, discoveryOrderingOut, parent
