@@ -8,36 +8,44 @@ import (
 
 func Test_Kruskal(t *testing.T) {
 	Convey("Test Kruskal", t, func() {
-		graph := [][]int{
-			{0, 1, 1},
-			{1, 0, 0},
-			{1, 0, 0},
+		graph := [][]*Vertex{
+			{{id: 1, weight: 1}, {id: 2, weight: 1}},
+			{{id: 0, weight: 1}},
+			{{id: 0, weight: 1}},
 		}
+
 		mst := Kruskal(graph)
+
 		So(mst, ShouldHaveLength, 2)
 		So(mst[0].weight, ShouldEqual, 1)
 		So(mst[1].weight, ShouldEqual, 1)
 	})
+
 	Convey("Test Kruskal", t, func() {
-		graph := [][]int{
-			{0, 1, 2},
-			{1, 0, 1},
-			{2, 1, 0},
+		graph := [][]*Vertex{
+			{{id: 1, weight: 1}, {id: 2, weight: 2}},
+			{{id: 0, weight: 1}, {id: 2, weight: 1}},
+			{{id: 0, weight: 2}, {id: 1, weight: 1}},
 		}
+
 		mst := Kruskal(graph)
+
 		So(mst, ShouldHaveLength, 2)
 		So(mst[0].weight, ShouldEqual, 1)
 		So(mst[1].weight, ShouldEqual, 1)
 	})
+
 	Convey("Test Kruskal", t, func() {
-		graph := [][]int{
-			{0, 3, 0, 0, 1},
-			{3, 0, 5, 0, 4},
-			{0, 5, 0, 2, 6},
-			{0, 0, 2, 0, 7},
-			{1, 4, 6, 7, 0},
+		graph := [][]*Vertex{
+			{{id: 1, weight: 3}, {id: 4, weight: 1}},
+			{{id: 0, weight: 3}, {id: 2, weight: 5}, {id: 4, weight: 4}},
+			{{id: 1, weight: 5}, {id: 3, weight: 2}, {id: 4, weight: 6}},
+			{{id: 2, weight: 2}, {id: 4, weight: 7}},
+			{{id: 0, weight: 1}, {id: 1, weight: 4}, {id: 2, weight: 6}, {id: 3, weight: 7}},
 		}
+
 		mst := Kruskal(graph)
+
 		So(mst, ShouldHaveLength, 4)
 		So(mst[0].weight, ShouldEqual, 1)
 		So(mst[1].weight, ShouldEqual, 2)

@@ -4,6 +4,11 @@ import (
 	"sort"
 )
 
+type Vertex struct {
+	id     int
+	weight int
+}
+
 func (e Edges) Len() int {
 	return len(e.edges)
 }
@@ -28,19 +33,18 @@ type Edges struct {
 	edges []*Edge
 }
 
-func Kruskal(graph [][]int) []*Edge {
+func Kruskal(graph [][]*Vertex) []*Edge {
 	mst := []*Edge{}
 	edges := Edges{}
+	N := len(graph)
 	parents = make([]int, len(graph))
 	ranks = make([]int, len(graph))
 	for i := 0; i < len(graph); i++ {
 		parents[i] = i
 	}
-	for u := 0; u < len(graph); u++ {
-		for v := u + 1; v < len(graph); v++ {
-			if graph[u][v] != 0 {
-				edges.edges = append(edges.edges, &Edge{vertex1: u, vertex2: v, weight: graph[u][v]})
-			}
+	for u := 0; u < N; u++ {
+		for _, v := range graph[u] {
+			edges.edges = append(edges.edges, &Edge{vertex1: u, vertex2: v.id, weight: v.weight})
 		}
 	}
 	sort.Sort(edges)
