@@ -17,12 +17,21 @@ func Add(a, b string) string {
 			carry = 1
 			addition = addition % 10
 		}
-		result = strconv.Itoa(addition) + result
+		result += strconv.Itoa(addition)
 	}
 	if carry > 0 {
-		result = strconv.Itoa(carry) + result
+		result += strconv.Itoa(carry)
 	}
-	return result
+	return reverseString(result)
+}
+
+func reverseString(word string) string {
+	N := len(word)
+	runeWord := []rune(word)
+	for i := 0; i < N/2; i++ {
+		runeWord[i], runeWord[N-i-1] = runeWord[N-i-1], runeWord[i]
+	}
+	return string(runeWord)
 }
 
 func getDigit(s string, i int) int {
