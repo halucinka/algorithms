@@ -47,13 +47,9 @@ func GetNumbersInRange_recursive(start, end int, root *Node) []int {
 	}
 	if root.value < start {
 		return GetNumbersInRange_recursive(start, end, root.right)
-	} else if root.value == start {
-		return append([]int{root.value}, GetNumbersInRange_recursive(start, end, root.right)...)
-	} else if root.value < end {
+	} else if root.value <= end {
 		temp := append(GetNumbersInRange_recursive(start, end, root.left), root.value)
 		return append(temp, GetNumbersInRange_recursive(start, end, root.right)...)
-	} else if root.value == end {
-		return append(GetNumbersInRange_recursive(start, end, root.left), root.value)
 	} else {
 		return GetNumbersInRange_recursive(start, end, root.left)
 	}
