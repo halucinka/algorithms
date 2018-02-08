@@ -24,5 +24,7 @@ func Test_GetLongestSubstring(t *testing.T) {
 		testStartEnd(")()", 1, 2)
 		testStartEnd("()(", 0, 1)
 		testStartEnd("((()())(())(", 1, 10)
+		testStartEnd("()()()()", 0, 7)
+
 	})
 }

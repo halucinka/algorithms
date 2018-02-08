@@ -6,7 +6,6 @@ func GetLongestSubString(parentheses string) (int, int) {
 	stack := []int{}
 	stackStart := 0
 	// lengthOfLastGoodString allows us to track previous good expressions. e.g. ()(), that means ()<-empty stack->()
-	lengthOfLastGoodString := 0
 	start := 0
 	end := 0
 	maxLength := -1
@@ -28,21 +27,17 @@ func GetLongestSubString(parentheses string) (int, int) {
 				} else {
 					// we found a good string, we can concatenate it with previous string we found
 					// when stack was empty the last time
-					currentLength := i - stackStart + 1
-					length := lengthOfLastGoodString + currentLength
+					length := i - stackStart + 1
 
 					if maxLength < length {
 						maxLength = length
-						start = stackStart - lengthOfLastGoodString
+						start = stackStart
 						end = i
-						stackStart = i + 1
 					}
-					lengthOfLastGoodString = length
 				}
 			} else {
 				// not enough (, not correct expression, we have to start again.
 				stackStart = i + 1
-				lengthOfLastGoodString = 0
 			}
 		}
 	}
