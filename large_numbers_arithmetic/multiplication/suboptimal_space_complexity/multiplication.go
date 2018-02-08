@@ -1,4 +1,4 @@
-package multiplication
+package suboptimal_space_complexity
 
 import (
 	"fmt"

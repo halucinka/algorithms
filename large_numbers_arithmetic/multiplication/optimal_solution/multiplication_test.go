@@ -1,4 +1,4 @@
-package multiplication
+package optimal_solution
 
 import (
 	"testing"
@@ -14,8 +14,5 @@ func Test_Multiply(t *testing.T) {
 		So(Multiply("3", "14"), ShouldEqual, "42")
 		So(Multiply("12", "12"), ShouldEqual, "144")
 		So(Multiply("0", "120"), ShouldEqual, "0")
-	})
-	Convey("Test diagonal traversal - won't error out", t, func() {
-		checkDiagonalTraversal()
 	})
 }
